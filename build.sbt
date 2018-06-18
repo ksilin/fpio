@@ -9,8 +9,9 @@ lazy val fpio =
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
+        library.catsEffect,
         library.scalaCheck % Test,
-        library.utest      % Test
+        library.specs      % Test
       )
     )
 
@@ -24,8 +25,10 @@ lazy val library =
       val scalaCheck = "1.14.0"
       val utest      = "0.6.4"
     }
-    val scalaCheck = "org.scalacheck" %% "scalacheck" % Version.scalaCheck
-    val utest      = "com.lihaoyi"    %% "utest"      % Version.utest
+    val catsEffect = "org.typelevel"  %% "cats-effect" % "1.0.0-RC2"
+    val scalaCheck = "org.scalacheck" %% "scalacheck"  % Version.scalaCheck
+    val specs      = "org.specs2"     %% "specs2-core" % "4.2.0"
+    val utest      = "com.lihaoyi"    %% "utest"       % Version.utest
   }
 
 // *****************************************************************************
@@ -33,8 +36,8 @@ lazy val library =
 // *****************************************************************************
 
 lazy val settings =
-  commonSettings ++
-  scalafmtSettings
+commonSettings ++
+scalafmtSettings
 
 lazy val commonSettings =
   Seq(
@@ -49,14 +52,15 @@ lazy val commonSettings =
       "-deprecation",
       "-language:_",
       "-target:jvm-1.8",
-      "-encoding", "UTF-8",
+      "-encoding",
+      "UTF-8",
       "-Ypartial-unification",
       "-Ywarn-unused-import"
     ),
     Compile / unmanagedSourceDirectories := Seq((Compile / scalaSource).value),
     Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value),
     testFrameworks += new TestFramework("utest.runner.Framework")
-)
+  )
 
 lazy val scalafmtSettings =
   Seq(
