@@ -24,6 +24,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class CatsIoInitTest extends mutable.Specification {
 
+  // https://typelevel.org/blog/2017/05/02/io-monad-for-cats.html
+
   "cats IO init spec" >> {
 
     val printLater = IO { println("hi") }
@@ -66,26 +68,81 @@ class CatsIoInitTest extends mutable.Specification {
     asyncRes.unsafeRunSync() must_== 1
   }
 
-  "async IO 3" >> {
+  "async IO - unsafeRunAsync" >> {
 
-    def asyncTask2(param: Any) = Future {
+    def asyncTask(param: Any) = Future {
       Thread.sleep(100)
       println("task 2")
       1
     }
 
-    val io: IO[Future[Int]] = IO { asyncTask2("x") }
+    val io: IO[Future[Int]] = IO { asyncTask("x") }
 
-    // for unsafeRunAsync, YOU need to resolve the Future inside the callback
-    def consumer(e: Either[Throwable, Future[Int]]) = {
+    // for unsafeRunAsync, YOU need to resolve the Future, or other async call inside the callback
+    val callback: Either[Throwable, Future[Int]] => Unit = e => {
       println(s"consuming $e")
       val i = e.right.get
       println(s"consumed $i")
     }
 
-    val res = io.unsafeRunAsync(consumer)
+    val res = io.unsafeRunAsync(callback)
     println(res)
     res must_== ()
   }
 
+  "async IO - runasync - the safe version" in {
+    def asyncTask(param: Any) = Future {
+      Thread.sleep(100)
+      println("task 2")
+      1
+    }
+
+    val io: IO[Future[Int]] = IO { asyncTask("x") }
+
+    val callback: Either[Throwable, Future[Int]] => IO[Unit] = e => {
+      IO {
+        println(s"consuming $e")
+        val i = e.right.get
+        println(s"consumed $i")
+      }
+    }
+
+    val resIo = io.runAsync(callback)
+    println(resIo)
+    val res = resIo.unsafeRunSync()
+    res must_== ()
+
+  }
+
+  "no error handling" >> {
+
+    val task = IO { throw new Exception("boom"); () }
+    println(s"task: $task")
+    task.unsafeRunSync() must throwAn[Exception].like { case e => e.getMessage === "boom" }
+//    task.unsafeRunSync() must throwAn[Exception](message = "boom")
+  }
+
+  "error handling - MonadError style" >> {
+    val task = IO { throw new Exception("boom"); () }
+
+    val eitherIO: IO[Either[Throwable, Unit]] = task.attempt
+
+    val res: Either[Throwable, Unit] = eitherIO.unsafeRunSync()
+    res must haveSuperclass[Either[Throwable, Unit]]
+    res must beLeft.like { case e => e.getMessage === "boom" }
+  }
+
+  "using the Effect type" >> {
+
+    // TODO - do I ever need to use the Effect type directly?
+    // IIUC - this is the instance you need for IO to work, but I dont quite get how
+    // any Effect must define the ability to evaluate as a side-effect
+
+    // Cannot find implicit value for Effect[scala.concurrent.Future]
+    // Cannot find implicit value for Effect[List]
+    // val task: IO[String] = Effect.toIOFromRunAsync(List("hi", "world"))
+    // println(task)
+    // val res = task.unsafeRunSync()
+    // println(res)
+  }
 }
