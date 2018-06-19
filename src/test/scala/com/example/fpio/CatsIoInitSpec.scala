@@ -22,7 +22,7 @@ import cats.effect._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class CatsIoInitTest extends mutable.Specification {
+class CatsIoInitSpec extends mutable.Specification {
 
   // https://typelevel.org/blog/2017/05/02/io-monad-for-cats.html
 
