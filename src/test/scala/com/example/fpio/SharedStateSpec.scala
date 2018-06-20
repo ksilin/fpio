@@ -1,37 +1,33 @@
-package com.example.fpio
+/*
+ * Copyright 2018 ksilin
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import org.specs2._
 import cats.effect._
-import cats.effect.concurrent.Ref
-import cats.syntax.all._ // provides Apply#Ops#*> - see https://www.scala-exercises.org/cats/apply
-
-
-import scala.concurrent.duration._
+import com.example.fpio.SharedApp
 
 class SharedStateSpec extends mutable.Specification {
 
   // https://typelevel.org/blog/2018/06/07/shared-state-in-fp.html
 
-  // our state will be represented by a Ref
-
-  object sharedApp1 extends IOApp {
-
-    val myState: Ref[IO, List[String]] = _
-
-    def putStrLn(str: String) = IO(println(str))
-
-    val process1: IO[Unit] = {
-      putStrLn("hi") *>
-      IO.sleep(5.seconds)
-    }
-
-    override def run(args: List[String]): IO[ExitCode] = _
-  }
-
   "using mutable state 1" >> {
-
+    val res: IO[ExitCode] = SharedApp.run(Nil)
+    println(res)
+//    res must_== (ExitCode.Success)
+//    false must beEqualTo(true)
+    false.must_==(true)
   }
-
-
 
 }

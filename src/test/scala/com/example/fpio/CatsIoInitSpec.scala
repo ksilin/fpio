@@ -132,17 +132,17 @@ class CatsIoInitSpec extends mutable.Specification {
     res must beLeft.like { case e => e.getMessage === "boom" }
   }
 
-  "using the Effect type" >> {
+//  "using the Effect type" >> {
 
-    // TODO - do I ever need to use the Effect type directly?
-    // IIUC - this is the instance you need for IO to work, but I dont quite get how
-    // any Effect must define the ability to evaluate as a side-effect
+  // TODO - do I ever need to use the Effect type directly?
+  // IIUC - this is the instance you need for IO to work, but I dont quite get how
+  // any Effect must define the ability to evaluate as a side-effect
 
-    // Cannot find implicit value for Effect[scala.concurrent.Future]
-    // Cannot find implicit value for Effect[List]
-    // val task: IO[String] = Effect.toIOFromRunAsync(List("hi", "world"))
-    // println(task)
-    // val res = task.unsafeRunSync()
-    // println(res)
-  }
+  // Cannot find implicit value for Effect[scala.concurrent.Future]
+  // Cannot find implicit value for Effect[List]
+  // val task: IO[String] = Effect.toIOFromRunAsync(List("hi", "world"))
+  // println(task)
+  // val res = task.unsafeRunSync()
+  // println(res)
+//  }
 }

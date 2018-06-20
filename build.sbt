@@ -11,7 +11,8 @@ lazy val fpio =
       libraryDependencies ++= Seq(
         library.catsEffect,
         library.scalaCheck % Test,
-        library.specs      % Test
+        library.specs      % Test,
+        library.scalaTest  % Test
       )
     )
 
@@ -28,7 +29,7 @@ lazy val library =
     val catsEffect = "org.typelevel"  %% "cats-effect" % "1.0.0-RC2"
     val scalaCheck = "org.scalacheck" %% "scalacheck"  % Version.scalaCheck
     val specs      = "org.specs2"     %% "specs2-core" % "4.2.0"
-    val utest      = "com.lihaoyi"    %% "utest"       % Version.utest
+    val scalaTest  = "org.scalatest"  %% "scalatest"   % "3.0.5"
   }
 
 // *****************************************************************************
