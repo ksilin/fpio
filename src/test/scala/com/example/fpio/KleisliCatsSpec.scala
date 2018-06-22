@@ -20,7 +20,7 @@ import cats.data.Kleisli
 import cats.implicits._
 import org.scalatest.{ FreeSpec, MustMatchers }
 
-https://typelevel.org/cats/datatypes/kleisli.html
+//https://typelevel.org/cats/datatypes/kleisli.html
 
 class KleisliCatsSpec extends FreeSpec with MustMatchers {
 
