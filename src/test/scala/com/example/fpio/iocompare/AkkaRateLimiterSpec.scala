@@ -9,7 +9,10 @@ import scala.concurrent.Future
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class AkkaRateLimiterSpec extends RateLimiterSpec with BeforeAndAfterAll with IntegrationPatience {
+class AkkaRateLimiterSpec
+    extends RateLimiterBaseSpec
+    with BeforeAndAfterAll
+    with IntegrationPatience {
 
   var system: ActorSystem = _
 
