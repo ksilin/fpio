@@ -5,7 +5,6 @@
 lazy val fpio =
   project
     .in(file("."))
-    .enablePlugins(AutomateHeaderPlugin)
     .settings(settings)
     .settings(
       resolvers += Resolver.sonatypeRepo("snapshots"),
@@ -14,11 +13,13 @@ lazy val fpio =
         library.akkaActor,
         library.zio,
         library.monix,
-        library.scalaCheck % Test,
-        library.specs      % Test,
-        library.scalaTest  % Test,
-        library.akkaTestkit  % Test,
-        library.akkaActorTestkitTyped  % Test
+        library.scalaLogging,
+        library.logback,
+        library.scalaCheck            % Test,
+        library.specs                 % Test,
+        library.scalaTest             % Test,
+        library.akkaTestkit           % Test,
+        library.akkaActorTestkitTyped % Test
       ),
     )
 
@@ -31,18 +32,20 @@ lazy val library =
     object Version {
       val scalaCheck = "1.14.0"
       val utest      = "0.6.4"
-      val akka = "2.5.13"
+      val akka       = "2.5.14"
     }
 
-    val akkaActor = "com.typesafe.akka" %% "akka-actor-typed" % Version.akka
-    val akkaTestkit = "com.typesafe.akka" %% "akka-testkit" % Version.akka % Test
-    val akkaActorTestkitTyped = "com.typesafe.akka" %% "akka-actor-testkit-typed" % Version.akka % Test
-    val zio = "org.scalaz" %% "scalaz-zio" % "0.1-SNAPSHOT"
-    val monix = "io.monix" %% "monix" % "3.0.0-RC1"
-    val catsEffect = "org.typelevel"  %% "cats-effect" % "1.0.0-RC2"
-    val scalaCheck = "org.scalacheck" %% "scalacheck"  % Version.scalaCheck
-    val specs      = "org.specs2"     %% "specs2-core" % "4.2.0"
-    val scalaTest  = "org.scalatest"  %% "scalatest"   % "3.0.5"
+    val akkaActor             = "com.typesafe.akka"          %% "akka-actor-typed"         % Version.akka
+    val akkaTestkit           = "com.typesafe.akka"          %% "akka-testkit"             % Version.akka
+    val akkaActorTestkitTyped = "com.typesafe.akka"          %% "akka-actor-testkit-typed" % Version.akka
+    val zio                   = "org.scalaz"                 %% "scalaz-zio"               % "0.1-SNAPSHOT"
+    val monix                 = "io.monix"                   %% "monix"                    % "3.0.0-RC1"
+    val catsEffect            = "org.typelevel"              %% "cats-effect"              % "1.0.0-RC2"
+    val scalaCheck            = "org.scalacheck"             %% "scalacheck"               % Version.scalaCheck
+    val specs                 = "org.specs2"                 %% "specs2-core"              % "4.2.0"
+    val scalaTest             = "org.scalatest"              %% "scalatest"                % "3.0.5"
+    val scalaLogging          = "com.typesafe.scala-logging" %% "scala-logging"            % "3.9.0"
+    val logback               = "ch.qos.logback"             % "logback-classic"           % "1.2.3"
   }
 
 // *****************************************************************************
@@ -60,7 +63,6 @@ lazy val commonSettings =
     organization := "default",
     organizationName := "ksilin",
     startYear := Some(2018),
-    licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
     scalacOptions ++= Seq(
       "-unchecked",
       "-deprecation",

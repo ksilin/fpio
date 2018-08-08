@@ -1,15 +1,18 @@
 package com.example.fpio.iocompare
 
 import com.example.fpio.iocompare.RateLimiterQueue._
-
 import scala.collection.immutable.Queue
 
 // https://github.com/softwaremill/akka-vs-scalaz/blob/master/core/src/main/scala/com/softwaremill/ratelimiter/RateLimiterQueue.scala
 
-case class RateLimiterQueue[F](maxRuns: Int, perMillis: Long,
-                               lastTimestamps: Queue[Long], waiting: Queue[F], scheduled: Boolean){
+case class RateLimiterQueue[F](maxRuns: Int,
+                               perMillis: Long,
+                               lastTimestamps: Queue[Long],
+                               waiting: Queue[F],
+                               scheduled: Boolean) {
 
-  def run(now: Long): (List[RateLimiterTask[F]], RateLimiterQueue[F]) = pruneTimestamps(now).doRun(now)
+  def run(now: Long): (List[RateLimiterTask[F]], RateLimiterQueue[F]) =
+    pruneTimestamps(now).doRun(now)
 
   def enqueue(f: F): RateLimiterQueue[F] = copy(waiting = waiting.enqueue(f))
 
@@ -19,11 +22,12 @@ case class RateLimiterQueue[F](maxRuns: Int, perMillis: Long,
     */
   def notScheduled: RateLimiterQueue[F] = copy(scheduled = false)
 
-  def doRun(now: Long): (List[RateLimiterTask[F]], RateLimiterQueue[F]) = {
-    if(lastTimestamps.size < maxRuns){
+  def doRun(now: Long): (List[RateLimiterTask[F]], RateLimiterQueue[F]) =
+    if (lastTimestamps.size < maxRuns) {
       waiting.dequeueOption match {
         case Some((io, remainingQueue)) =>
-          val (tasks, next) = copy(lastTimestamps = lastTimestamps.enqueue(now), waiting = remainingQueue).run(now)
+          val (tasks, next) =
+            copy(lastTimestamps = lastTimestamps.enqueue(now), waiting = remainingQueue).run(now)
           (Run(io) :: tasks, next)
         case None => (Nil, this)
       }
@@ -33,7 +37,6 @@ case class RateLimiterQueue[F](maxRuns: Int, perMillis: Long,
     } else {
       (Nil, this)
     }
-  }
 
   /**
     * Remove timestamps which are outside of the current time window, that is
@@ -50,6 +53,6 @@ object RateLimiterQueue {
     RateLimiterQueue[F](maxRuns, perMillis, Queue.empty, Queue.empty, scheduled = false)
 
   sealed trait RateLimiterTask[F]
-  case class Run[F](run: F) extends RateLimiterTask[F]
+  case class Run[F](run: F)            extends RateLimiterTask[F]
   case class RunAfter[F](millis: Long) extends RateLimiterTask[F]
 }
