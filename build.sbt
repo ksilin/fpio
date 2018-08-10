@@ -38,7 +38,7 @@ lazy val library =
     val akkaActor             = "com.typesafe.akka"          %% "akka-actor-typed"         % Version.akka
     val akkaTestkit           = "com.typesafe.akka"          %% "akka-testkit"             % Version.akka
     val akkaActorTestkitTyped = "com.typesafe.akka"          %% "akka-actor-testkit-typed" % Version.akka
-    val zio                   = "org.scalaz"                 %% "scalaz-zio"               % "0.1-SNAPSHOT"
+    val zio                   = "org.scalaz"                 %% "scalaz-zio"               % "0.1.0-SNAPSHOT"
     val monix                 = "io.monix"                   %% "monix"                    % "3.0.0-RC1"
     val catsEffect            = "org.typelevel"              %% "cats-effect"              % "1.0.0-RC2"
     val scalaCheck            = "org.scalacheck"             %% "scalacheck"               % Version.scalaCheck
@@ -75,7 +75,8 @@ lazy val commonSettings =
     ),
     Compile / unmanagedSourceDirectories := Seq((Compile / scalaSource).value),
     Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value),
-    testFrameworks += new TestFramework("utest.runner.Framework")
+    addCompilerPlugin("org.spire-math"  %% "kind-projector" % "0.9.7"),
+    // updateOptions := updateOptions.value.withLatestSnapshots(false)
   )
 
 lazy val scalafmtSettings =
