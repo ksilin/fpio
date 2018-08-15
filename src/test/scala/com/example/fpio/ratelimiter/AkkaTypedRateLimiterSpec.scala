@@ -1,6 +1,6 @@
-package com.example.fpio.iocompare
+package com.example.fpio.ratelimiter
 
-import com.example.fpio.iocompare.akkatyped.AkkaTypedRateLimiter
+import com.example.fpio.ratelimiter.akkatyped.AkkaTypedRateLimiter
 import org.scalatest.concurrent.IntegrationPatience
 
 import scala.concurrent.ExecutionContext.Implicits.global

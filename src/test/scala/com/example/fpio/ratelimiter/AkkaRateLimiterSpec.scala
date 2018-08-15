@@ -1,9 +1,9 @@
-package com.example.fpio.iocompare
+package com.example.fpio.ratelimiter
 
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.concurrent.IntegrationPatience
 import akka.actor.ActorSystem
-import com.example.fpio.iocompare.akkauntyped.AkkaRateLimiter
+import com.example.fpio.ratelimiter.akkauntyped.AkkaRateLimiter
 
 import scala.concurrent.Future
 import scala.concurrent.duration.FiniteDuration

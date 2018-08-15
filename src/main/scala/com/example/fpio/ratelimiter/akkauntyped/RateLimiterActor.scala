@@ -1,8 +1,8 @@
-package com.example.fpio.iocompare.akkauntyped
+package com.example.fpio.ratelimiter.akkauntyped
 
 import akka.actor.{ Actor, ActorLogging }
-import com.example.fpio.iocompare.RateLimiterQueue
-import com.example.fpio.iocompare.RateLimiterQueue.{ Run, RunAfter }
+import com.example.fpio.ratelimiter.RateLimiterQueue
+import com.example.fpio.ratelimiter.RateLimiterQueue.{ Run, RunAfter }
 
 import scala.concurrent.Future
 import scala.concurrent.duration._

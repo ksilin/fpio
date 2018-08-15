@@ -1,6 +1,6 @@
-package com.example.fpio.iocompare
+package com.example.fpio.ratelimiter
 
-import com.example.fpio.iocompare.mnx.MonixRateLimiter
+import com.example.fpio.ratelimiter.mnx.MonixRateLimiter
 import monix.execution.Scheduler.Implicits.global
 import monix.eval.{ Fiber, MVar, Task }
 import org.scalatest.concurrent.IntegrationPatience

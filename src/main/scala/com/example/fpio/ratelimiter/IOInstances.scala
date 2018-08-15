@@ -1,4 +1,4 @@
-package com.example.fpio.iocompare
+package com.example.fpio.ratelimiter
 
 import cats.Monad
 import scalaz.zio.IO

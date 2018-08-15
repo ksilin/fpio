@@ -1,5 +1,5 @@
-package com.example.fpio.iocompare
-import com.example.fpio.iocompare.zzio.ZioRateLimiter
+package com.example.fpio.ratelimiter
+import com.example.fpio.ratelimiter.zzio.ZioRateLimiter
 import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.{ FreeSpec, MustMatchers }
 import scalaz.zio.RTS

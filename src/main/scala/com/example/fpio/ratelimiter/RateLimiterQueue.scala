@@ -1,6 +1,6 @@
-package com.example.fpio.iocompare
+package com.example.fpio.ratelimiter
 
-import com.example.fpio.iocompare.RateLimiterQueue._
+import com.example.fpio.ratelimiter.RateLimiterQueue._
 import scala.collection.immutable.Queue
 
 // https://github.com/softwaremill/akka-vs-scalaz/blob/master/core/src/main/scala/com/softwaremill/ratelimiter/RateLimiterQueue.scala

@@ -1,8 +1,8 @@
-package com.example.fpio.iocompare.mnx
+package com.example.fpio.ratelimiter.mnx
 
 // monix Fiber[A] is cats.effect Fiber[Task, A]
-import com.example.fpio.iocompare.RateLimiterQueue
-import com.example.fpio.iocompare.RateLimiterQueue.{ RateLimiterTask, Run, RunAfter }
+import com.example.fpio.ratelimiter.RateLimiterQueue
+import com.example.fpio.ratelimiter.RateLimiterQueue.{ RateLimiterTask, Run, RunAfter }
 import com.typesafe.scalalogging.StrictLogging
 import monix.eval.{ Fiber, MVar, Task }
 import cats.implicits._

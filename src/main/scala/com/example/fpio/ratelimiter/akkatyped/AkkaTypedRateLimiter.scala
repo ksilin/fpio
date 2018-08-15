@@ -1,9 +1,9 @@
-package com.example.fpio.iocompare.akkatyped
+package com.example.fpio.ratelimiter.akkatyped
 
 import akka.actor.typed.{ ActorSystem, Behavior }
 import akka.actor.typed.scaladsl.{ Behaviors, TimerScheduler }
-import com.example.fpio.iocompare.RateLimiterQueue
-import com.example.fpio.iocompare.RateLimiterQueue.{ Run, RunAfter }
+import com.example.fpio.ratelimiter.RateLimiterQueue
+import com.example.fpio.ratelimiter.RateLimiterQueue.{ Run, RunAfter }
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.{ ExecutionContext, Future, Promise }

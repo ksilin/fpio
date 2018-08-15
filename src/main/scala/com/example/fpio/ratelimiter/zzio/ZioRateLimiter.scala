@@ -1,11 +1,11 @@
-package com.example.fpio.iocompare.zzio
-import com.example.fpio.iocompare.RateLimiterQueue
-import com.example.fpio.iocompare.RateLimiterQueue._
+package com.example.fpio.ratelimiter.zzio
+import com.example.fpio.ratelimiter.RateLimiterQueue
+import com.example.fpio.ratelimiter.RateLimiterQueue._
 import com.typesafe.scalalogging.StrictLogging
 import scalaz.zio.{ Fiber, IO, Promise, Queue }
 import cats.implicits._
 import scala.concurrent.duration._
-import com.example.fpio.iocompare.IOInstances._
+import com.example.fpio.ratelimiter.IOInstances._
 import cats.Monad
 import scalaz.zio.IO
 

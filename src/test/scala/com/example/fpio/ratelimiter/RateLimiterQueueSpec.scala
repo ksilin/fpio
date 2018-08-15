@@ -1,4 +1,4 @@
-package com.example.fpio.iocompare
+package com.example.fpio.ratelimiter
 
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{ FreeSpec, MustMatchers }

@@ -1,4 +1,4 @@
-package com.example.fpio.iocompare.akkauntyped
+package com.example.fpio.ratelimiter.akkauntyped
 
 import akka.actor.{ ActorRef, ActorSystem, PoisonPill, Props }
 import scala.concurrent.duration._
