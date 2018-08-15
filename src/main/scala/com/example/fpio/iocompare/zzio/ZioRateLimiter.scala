@@ -14,7 +14,7 @@ class ZioRateLimiter(queue: Queue[RateLimiterMsg], runQueueFiber: Fiber[Nothing,
   def runLimited[E, T](f: IO[E, T]): IO[E, T] =
     for {
       p <- Promise.make[E, T]
-      toRun : IO[Nothing, Unit] = f.flatMap(p.complete).catchAll(p.error).fork.void //.toUnit
+      toRun: IO[Nothing, Unit] = f.flatMap(p.complete).catchAll(p.error).fork.void //.toUnit
       _ <- queue.offer(Schedule(toRun))
       r <- p.get
     } yield r
@@ -36,6 +36,7 @@ object ZioRateLimiter extends StrictLogging {
 
   private def runQueue(data: RateLimiterQueue[IO[Void, Unit]],
                        queue: Queue[RateLimiterMsg]): IO[Nothing, Unit] = {
+
     val enqueue: IO[Nothing, RateLimiterQueue[IO[Void, Unit]]] = queue.take.map {
       case ScheduledRunQueue => data.notScheduled
       case Schedule(t)       => data.enqueue(t)
@@ -46,7 +47,7 @@ object ZioRateLimiter extends StrictLogging {
                              RateLimiterQueue[IO[Void, Unit]])] =
       enqueue.map(_.run(System.currentTimeMillis()))
 
-    runLimiterQueue.flatMap {
+    val runTasks = runLimiterQueue.flatMap {
       case (tasks, q) =>
         tasks
           .map {
@@ -60,6 +61,7 @@ object ZioRateLimiter extends StrictLogging {
           .sequence_
           .map(_ => q)
     }
+    runTasks.flatMap(d => runQueue(d, queue))
   }
 }
 
