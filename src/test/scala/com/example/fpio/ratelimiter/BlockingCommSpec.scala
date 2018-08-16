@@ -3,7 +3,6 @@ package com.example.fpio.ratelimiter
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{ FreeSpec, MustMatchers }
 import scalaz.zio.{ ExitResult, Fiber, IO, RTS, Promise => ZioPromise }
-import cats.implicits._
 
 import scala.annotation.tailrec
 import scala.concurrent.{ Future, Promise }
