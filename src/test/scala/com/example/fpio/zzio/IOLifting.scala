@@ -8,7 +8,7 @@ import scalaz.zio.{ IO, RTS }
 import scalaz.zio.console._
 import scalaz.zio.App
 
-import scala.concurrent.Future
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class IOLifting extends FreeSpec with MustMatchers with ScalaFutures with RTS {
@@ -17,7 +17,7 @@ class IOLifting extends FreeSpec with MustMatchers with ScalaFutures with RTS {
 
   val impurePrint: String => Unit          = s => println(s"printing $s")
   val impurePrintF: Future[String] => Unit = fs => fs map impurePrint
-  val fail: Any => Unit                    = (_) => { throw new Exception("boom"); () }
+  val fail: Any => Unit                    = _ => { throw new Exception("boom"); () }
 
   val pureCalc: Int => Int => Int = i =>
     j => {
@@ -52,7 +52,7 @@ class IOLifting extends FreeSpec with MustMatchers with ScalaFutures with RTS {
     Thread.sleep(100)
   }
 
-  "syncThrowable" in {
+  "syncThrowable & catchAll" in {
 
     val toFail: IO[Throwable, Nothing] = IO.syncThrowable(fail())
     // unsafeRun(toFail) -> an error was not handled by a fiber
@@ -89,6 +89,33 @@ class IOLifting extends FreeSpec with MustMatchers with ScalaFutures with RTS {
 
   "syncCatch" in {}
 
+  "orElse" in {}
+
+  "redeem" in {}
+
+  "forever" in {}
+
+  "retry, retryFor, retryN" in {}
+
   // from future?
+  "from future" in {
+
+    import com.example.fpio.ratelimiter.zzio.FutureInterop._
+
+    val f: () => Future[Int] = () =>
+      Future {
+        Thread.sleep(100)
+        println("working")
+        1
+    }
+    val ec = scala.concurrent.ExecutionContext.Implicits.global
+
+    val ffIO: IO[Throwable, Int] =
+      IO.fromFuture(f)(ec)
+
+    val res: Int = unsafeRun(ffIO)
+    res mustBe 1
+
+  }
 
 }

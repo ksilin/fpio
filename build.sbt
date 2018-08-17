@@ -75,8 +75,8 @@ lazy val commonSettings =
     ),
     Compile / unmanagedSourceDirectories := Seq((Compile / scalaSource).value),
     Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value),
-    addCompilerPlugin("org.spire-math"  %% "kind-projector" % "0.9.7"),
-    // updateOptions := updateOptions.value.withLatestSnapshots(false)
+    addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.7"),
+    updateOptions := updateOptions.value.withLatestSnapshots(true) // already the default
   )
 
 lazy val scalafmtSettings =
